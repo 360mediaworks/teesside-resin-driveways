@@ -88,7 +88,7 @@ export default function Home() {
                 Service Areas
               </button>
               <Button
-                onClick={() => window.open("https://link.teessideguttercleaning.co.uk/contact", "_blank")}
+                onClick={() => window.open("https://lp.teessideresindriveways.co.uk/contact/", "_blank")}
                 size="lg"
               >
                 Get Free Quote
@@ -120,7 +120,7 @@ export default function Home() {
               <Button
                 size="lg"
                 className="text-lg px-8 py-6"
-                onClick={() => window.open("https://link.teessideguttercleaning.co.uk/contact", "_blank")}
+                onClick={() => window.open("https://lp.teessideresindriveways.co.uk/contact/", "_blank")}
               >
                 Request Your Free Quote
               </Button>
@@ -176,6 +176,44 @@ export default function Home() {
                 </p>
               </CardContent>
             </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* Visual Showcase Section */}
+      <section className="py-16 bg-gradient-to-br from-primary/5 to-secondary/5">
+        <div className="container mx-auto px-4">
+          <div className="grid md:grid-cols-3 gap-6">
+            <div className="relative overflow-hidden rounded-lg shadow-lg group">
+              <img
+                src="/resin-texture.jpg"
+                alt="Resin driveway close-up texture"
+                className="w-full h-64 object-cover transition-transform group-hover:scale-110 duration-300"
+              />
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-foreground/90 to-transparent p-4">
+                <p className="text-background font-bold">Premium Quality Finish</p>
+              </div>
+            </div>
+            <div className="relative overflow-hidden rounded-lg shadow-lg group">
+              <img
+                src="/resin-installation.jpg"
+                alt="Professional resin driveway installation"
+                className="w-full h-64 object-cover transition-transform group-hover:scale-110 duration-300"
+              />
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-foreground/90 to-transparent p-4">
+                <p className="text-background font-bold">Expert Installation</p>
+              </div>
+            </div>
+            <div className="relative overflow-hidden rounded-lg shadow-lg group">
+              <img
+                src="/resin-colors.jpg"
+                alt="Various resin driveway colors"
+                className="w-full h-64 object-cover transition-transform group-hover:scale-110 duration-300"
+              />
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-foreground/90 to-transparent p-4">
+                <p className="text-background font-bold">Wide Color Range</p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -274,7 +312,7 @@ export default function Home() {
             </p>
             <Button
               size="lg"
-              onClick={() => window.open("https://link.teessideguttercleaning.co.uk/contact", "_blank")}
+              onClick={() => window.open("https://lp.teessideresindriveways.co.uk/contact/", "_blank")}
             >
               Get Expert Advice
             </Button>
@@ -579,24 +617,33 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 max-w-4xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
             {[
-              "Middlesbrough",
-              "Stockton-on-Tees",
-              "Billingham",
-              "Redcar",
-              "Thornaby",
-              "Yarm",
-              "Eaglescliffe",
-              "Ingleby Barwick",
-              "Wynyard",
+              { name: "Middlesbrough", url: "https://middlesbroughresindriveways.co.uk" },
+              { name: "Stockton-on-Tees", url: "https://stocktonresindriveways.co.uk" },
+              { name: "Billingham", url: "https://billinghamresindriveways.co.uk" },
+              { name: "Redcar", url: "https://redcarresindriveways.co.uk" },
+              { name: "Thornaby", url: "https://thornabyresindriveways.co.uk" },
+              { name: "Yarm", url: "https://yarmresindriveways.co.uk" },
+              { name: "Eaglescliffe", url: "https://eaglesclifferesindriveways.co.uk" },
+              { name: "Ingleby Barwick", url: "https://inglebybarwickresindriveways.co.uk" },
+              { name: "Wynyard", url: "https://wynyardresindriveways.co.uk" },
             ].map((area) => (
-              <Card key={area} className="text-center">
-                <CardContent className="pt-6">
-                  <MapPin className="h-8 w-8 text-primary mx-auto mb-2" />
-                  <p className="font-semibold">{area}</p>
-                </CardContent>
-              </Card>
+              <a
+                key={area.name}
+                href={area.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block transition-transform hover:scale-105"
+              >
+                <Card className="text-center h-full hover:shadow-lg transition-shadow cursor-pointer">
+                  <CardContent className="pt-6 pb-6">
+                    <MapPin className="h-10 w-10 text-primary mx-auto mb-3" />
+                    <p className="font-bold text-lg">{area.name}</p>
+                    <p className="text-sm text-muted-foreground mt-1">Resin Driveways</p>
+                  </CardContent>
+                </Card>
+              </a>
             ))}
           </div>
 
@@ -621,7 +668,7 @@ export default function Home() {
             size="lg"
             variant="secondary"
             className="text-lg px-8 py-6"
-            onClick={() => window.open("https://link.teessideguttercleaning.co.uk/contact", "_blank")}
+            onClick={() => window.open("https://lp.teessideresindriveways.co.uk/contact/", "_blank")}
           >
             Request Your Free Quote Now
           </Button>
@@ -683,7 +730,7 @@ export default function Home() {
               <Button
                 variant="outline"
                 className="mb-4"
-                onClick={() => window.open("https://link.teessideguttercleaning.co.uk/contact", "_blank")}
+                onClick={() => window.open("https://lp.teessideresindriveways.co.uk/contact/", "_blank")}
               >
                 Get In Touch
               </Button>
@@ -691,11 +738,11 @@ export default function Home() {
           </div>
 
           <div className="border-t border-background/20 pt-8">
-            <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-              <p className="text-background/80 text-sm text-center md:text-left">
+            <div className="flex flex-col gap-4">
+              <p className="text-background/80 text-sm text-center">
                 © 2025 Teesside Driveways, Varsity House, 2 Falcon Court, Preston Farm Industrial Estate, Stockton-on-Tees, TS18 3TS. All rights reserved.
               </p>
-              <div className="flex gap-6 text-sm">
+              <div className="flex flex-wrap justify-center gap-6 text-sm">
                 <a
                   href="https://lp.teessideresindriveways.co.uk/privacy-policy"
                   target="_blank"

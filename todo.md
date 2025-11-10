@@ -53,3 +53,13 @@
 - [x] Test CTA button functionality
 - [x] Verify mobile responsiveness
 - [x] Check page speed and performance
+
+## New Changes Requested
+- [x] Update CTA link to https://lp.teessideresindriveways.co.uk/contact/
+- [x] Space out footer so copyright is on separate line from legal links
+- [x] Add SEO-optimized Meta Title with resin driveway keywords
+- [x] Make location boxes 3x3 grid layout (9 locations)
+- [x] Link each location to respective domain (e.g., middlesbroughresindriveways.co.uk)
+- [x] Implement bolder green color scheme inspired by logo
+- [x] Create eye-catching CTA button colors that complement scheme
+- [x] Add more images throughout the page for visual appeal
