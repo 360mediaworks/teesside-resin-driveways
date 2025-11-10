@@ -6,206 +6,173 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { Phone, Mail, CheckCircle2, Shield, Clock, Award } from "lucide-react";
-import { useEffect } from "react";
+import { Check, Droplets, Shield, Sparkles, Clock, MapPin, ChevronDown } from "lucide-react";
+import { useEffect, useState } from "react";
+import SchemaMarkup from "@/components/SchemaMarkup";
 
 export default function Home() {
+  const [isScrolled, setIsScrolled] = useState(false);
+
   useEffect(() => {
-    // Add schema markup to page
-    const schemas = [
-      // LocalBusiness Schema
-      {
-        "@context": "https://schema.org",
-        "@type": "RoofingContractor",
-        "name": "Teesside Roofing Services",
-        "description": "Professional roofing replacement and repair services in Teesside, UK",
-        "areaServed": {
-          "@type": "City",
-          "name": "Teesside"
-        },
-        "address": {
-          "@type": "PostalAddress",
-          "addressLocality": "Teesside",
-          "addressCountry": "UK"
-        }
-      },
-      // Organization Schema
-      {
-        "@context": "https://schema.org",
-        "@type": "Organization",
-        "name": "Teesside Roofing Services",
-        "description": "Quality roofing services in Teesside"
-      },
-      // Article Schema
-      {
-        "@context": "https://schema.org",
-        "@type": "Article",
-        "headline": "Professional Roofing Services in Teesside",
-        "description": "Expert roof replacement and repair services for homes and businesses in Teesside, UK"
-      },
-      // FAQPage Schema
-      {
-        "@context": "https://schema.org",
-        "@type": "FAQPage",
-        "mainEntity": [
-          {
-            "@type": "Question",
-            "name": "How much does roof replacement cost in Teesside?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "The cost of roof replacement in Teesside varies depending on the size of your property, the materials chosen, and the complexity of the work. On average, homeowners can expect to pay between £5,000 and £15,000 for a complete roof replacement. We provide free, no-obligation quotes to give you an accurate estimate for your specific project."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "How long does a roof replacement take?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Most residential roof replacement projects in Teesside take between 3-7 days to complete, depending on the size of the roof, weather conditions, and the type of roofing material being installed. We'll provide you with a detailed timeline during your consultation."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Do I need planning permission for roof work in Teesside?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "In most cases, replacing a roof with similar materials does not require planning permission in the UK. However, if you live in a conservation area or listed building, or if you're changing the roof structure significantly, you may need permission. We can advise you on the specific requirements for your property."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "What areas of Teesside do you cover?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "We provide roofing services throughout the entire Teesside area, including Middlesbrough, Stockton-on-Tees, Redcar, Hartlepool, and surrounding communities."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Is there a cost to get a quote?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "No, we provide completely free, no-obligation quotes for all roofing projects in Teesside. Simply fill out our contact form or give us a call to arrange a consultation."
-            }
-          }
-        ]
-      }
-    ];
-
-    const script = document.createElement('script');
-    script.type = 'application/ld+json';
-    script.text = JSON.stringify(schemas);
-    document.head.appendChild(script);
-
-    return () => {
-      document.head.removeChild(script);
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
     };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const scrollToContact = () => {
-    document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+  const scrollToSection = (id: string) => {
+    const element = document.getElementById(id);
+    if (element) {
+      const offset = 80;
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - offset;
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth",
+      });
+    }
   };
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <>
+      <SchemaMarkup />
+      <div className="min-h-screen flex flex-col bg-background">
+      {/* Fixed Header with Navigation */}
+      <header
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+          isScrolled ? "bg-white shadow-md" : "bg-white"
+        }`}
+      >
+        <div className="container mx-auto px-4">
+          <div className="flex items-center justify-between h-20">
+            {/* Logo */}
+            <div className="flex-shrink-0">
+              <img
+                src="https://res.cloudinary.com/dfvsaeiwl/image/upload/Teesside%20Driveways/Teesside_Driveways_Logo_350x180px_u43i1k.jpg"
+                alt="Teesside Driveways"
+                className="h-16 w-auto"
+              />
+            </div>
+
+            {/* Desktop Navigation */}
+            <nav className="hidden md:flex items-center space-x-8">
+              <button
+                onClick={() => scrollToSection("services")}
+                className="text-foreground hover:text-primary transition-colors font-medium"
+              >
+                Services
+              </button>
+              <button
+                onClick={() => scrollToSection("how-it-works")}
+                className="text-foreground hover:text-primary transition-colors font-medium"
+              >
+                How It Works
+              </button>
+              <button
+                onClick={() => scrollToSection("benefits")}
+                className="text-foreground hover:text-primary transition-colors font-medium"
+              >
+                Why Choose Us
+              </button>
+              <button
+                onClick={() => scrollToSection("faq")}
+                className="text-foreground hover:text-primary transition-colors font-medium"
+              >
+                FAQ
+              </button>
+              <button
+                onClick={() => scrollToSection("areas")}
+                className="text-foreground hover:text-primary transition-colors font-medium"
+              >
+                Service Areas
+              </button>
+              <Button
+                onClick={() => window.open("https://link.teessideguttercleaning.co.uk/contact", "_blank")}
+                size="lg"
+              >
+                Get Free Quote
+              </Button>
+            </nav>
+
+            {/* Mobile Menu Button */}
+            <button
+              className="md:hidden p-2"
+              onClick={() => scrollToSection("contact")}
+            >
+              <ChevronDown className="h-6 w-6" />
+            </button>
+          </div>
+        </div>
+      </header>
+
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-primary/10 to-accent/20 py-20 md:py-32">
-        <div className="container">
+      <section className="relative pt-32 pb-20 bg-gradient-to-br from-primary/5 to-accent/5">
+        <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6">
-                Roofing Services in Teesside
+                Transform Your Driveway with Premium Resin Solutions
               </h1>
               <p className="text-xl text-muted-foreground mb-8">
-                Quality Roof Replacement and Repair for Your Home
+                Looking for resin driveways in Teesside? We specialize in durable, permeable resin bound and bonded driveways that enhance your property's curb appeal while providing long-lasting performance.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4 mb-8">
-                <Button size="lg" onClick={scrollToContact} className="text-lg">
-                  Get a Free Estimate
-                </Button>
-                <Button size="lg" variant="outline" onClick={scrollToContact}>
-                  <Phone className="mr-2 h-5 w-5" />
-                  Request a Call Back
-                </Button>
-              </div>
-              <div className="flex flex-wrap gap-6 text-sm">
-                <div className="flex items-center gap-2">
-                  <Shield className="h-5 w-5 text-primary" />
-                  <span>Licensed & Insured</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <CheckCircle2 className="h-5 w-5 text-primary" />
-                  <span>Free, No-Obligation Quotes</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Clock className="h-5 w-5 text-primary" />
-                  <span>Fast Response Time</span>
-                </div>
-              </div>
+              <Button
+                size="lg"
+                className="text-lg px-8 py-6"
+                onClick={() => window.open("https://link.teessideguttercleaning.co.uk/contact", "_blank")}
+              >
+                Request Your Free Quote
+              </Button>
             </div>
-            <div className="relative h-[400px] md:h-[500px] rounded-lg overflow-hidden shadow-2xl">
+            <div className="relative">
               <img
-                src="/hero-roof.jpg"
-                alt="Professional roofing services in Teesside"
-                className="w-full h-full object-cover"
+                src="/resin-hero.jpg"
+                alt="Beautiful resin bound driveway"
+                className="rounded-lg shadow-2xl w-full h-auto"
               />
             </div>
           </div>
         </div>
       </section>
 
-      {/* Introduction & Service Overview */}
-      <section className="py-16 md:py-24 bg-background">
-        <div className="container max-w-4xl">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-6">
-            Looking for Roofing Services in Teesside?
-          </h2>
-          <p className="text-lg text-muted-foreground text-center mb-8">
-            Your roof is one of the most important parts of your home, protecting you and your family from the elements. Whether you need a complete roof replacement, emergency repairs, or routine maintenance, finding the right roofing service in Teesside is essential for ensuring quality workmanship and long-lasting results.
-          </p>
-          <p className="text-lg text-muted-foreground text-center">
-            We connect homeowners throughout Teesside with experienced, qualified roofing professionals who can handle projects of any size. From minor leak repairs to full roof replacements, our network of trusted contractors delivers reliable service with competitive pricing and exceptional customer care.
-          </p>
-        </div>
-      </section>
+      {/* Introduction Section */}
+      <section className="py-20 bg-background">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
+              Looking for Resin Driveways in Teesside?
+            </h2>
+            <p className="text-lg text-muted-foreground leading-relaxed">
+              Your driveway is one of the first things visitors notice about your home. A worn, cracked, or outdated driveway can detract from your property's appearance and value. Resin driveways offer a modern, elegant solution that combines stunning aesthetics with practical benefits. Whether you're dealing with drainage issues, weed growth, or simply want to upgrade your home's exterior, resin surfacing provides a durable, low-maintenance alternative to traditional materials like tarmac, concrete, or block paving.
+            </p>
+          </div>
 
-      {/* How It Works */}
-      <section className="py-16 md:py-24 bg-accent/30">
-        <div className="container">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
-            How It Works
-          </h2>
           <div className="grid md:grid-cols-3 gap-8">
-            <Card className="text-center">
-              <CardContent className="pt-8">
-                <div className="w-16 h-16 bg-primary text-primary-foreground rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">
-                  1
-                </div>
-                <h3 className="text-xl font-semibold mb-3">Tell Us About Your Project</h3>
+            <Card>
+              <CardContent className="pt-6">
+                <Droplets className="h-12 w-12 text-primary mb-4" />
+                <h3 className="text-xl font-bold mb-3">Fully Permeable</h3>
                 <p className="text-muted-foreground">
-                  Fill out the quick contact form with your details and describe your roofing needs.
+                  Resin bound surfaces allow water to drain naturally, preventing puddles and reducing flood risk while being environmentally friendly.
                 </p>
               </CardContent>
             </Card>
-            <Card className="text-center">
-              <CardContent className="pt-8">
-                <div className="w-16 h-16 bg-primary text-primary-foreground rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">
-                  2
-                </div>
-                <h3 className="text-xl font-semibold mb-3">Get a Free Consultation</h3>
+            <Card>
+              <CardContent className="pt-6">
+                <Shield className="h-12 w-12 text-primary mb-4" />
+                <h3 className="text-xl font-bold mb-3">Incredibly Durable</h3>
                 <p className="text-muted-foreground">
-                  Receive a no-obligation quote and expert advice from a qualified roofing professional.
+                  Built to last 15+ years with minimal maintenance. Resistant to cracking, UV damage, and heavy vehicle traffic.
                 </p>
               </CardContent>
             </Card>
-            <Card className="text-center">
-              <CardContent className="pt-8">
-                <div className="w-16 h-16 bg-primary text-primary-foreground rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">
-                  3
-                </div>
-                <h3 className="text-xl font-semibold mb-3">Start Your Project</h3>
+            <Card>
+              <CardContent className="pt-6">
+                <Sparkles className="h-12 w-12 text-primary mb-4" />
+                <h3 className="text-xl font-bold mb-3">Beautiful Finish</h3>
                 <p className="text-muted-foreground">
-                  Move forward with confidence knowing you're getting quality service at a fair price.
+                  Smooth, modern appearance with a wide range of colors and aggregate options to complement any property style.
                 </p>
               </CardContent>
             </Card>
@@ -213,424 +180,552 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Service Details */}
-      <section className="py-16 md:py-24 bg-background">
-        <div className="container">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
-            Our Roofing Services
-          </h2>
-          <div className="grid md:grid-cols-2 gap-8">
-            <Card>
-              <CardContent className="p-6">
-                <div className="h-48 mb-4 rounded-lg overflow-hidden">
-                  <img
-                    src="/roof-replacement.jpg"
-                    alt="Roof replacement services in Teesside"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <h3 className="text-2xl font-semibold mb-3">Roof Replacement</h3>
+      {/* Resin Bound vs Bonded Section */}
+      <section id="services" className="py-20 bg-muted/30">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+              Our Resin Driveway Services
+            </h2>
+            <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
+              We offer both resin bound and resin bonded solutions, each with unique characteristics to suit different needs and preferences.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-8 mb-12">
+            {/* Resin Bound */}
+            <Card className="overflow-hidden">
+              <img
+                src="/resin-bound.jpg"
+                alt="Resin bound driveway"
+                className="w-full h-64 object-cover"
+              />
+              <CardContent className="pt-6">
+                <h3 className="text-2xl font-bold mb-4">Resin Bound Driveways</h3>
                 <p className="text-muted-foreground mb-4">
-                  Complete roof replacement services for residential and commercial properties. We work with all roofing materials including tiles, slates, felt, and metal roofing systems.
+                  Resin and aggregate are mixed together before being trowelled onto a prepared surface, creating a smooth, permeable finish. This is our most popular option for modern homes.
                 </p>
                 <ul className="space-y-2">
-                  <li className="flex items-start gap-2">
-                    <CheckCircle2 className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
-                    <span>Full roof surveys and assessments</span>
+                  <li className="flex items-start">
+                    <Check className="h-5 w-5 text-primary mr-2 mt-0.5 flex-shrink-0" />
+                    <span>Fully permeable - water drains through the surface</span>
                   </li>
-                  <li className="flex items-start gap-2">
-                    <CheckCircle2 className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
-                    <span>Wide range of roofing materials available</span>
+                  <li className="flex items-start">
+                    <Check className="h-5 w-5 text-primary mr-2 mt-0.5 flex-shrink-0" />
+                    <span>Smooth, modern finish with no loose stones</span>
                   </li>
-                  <li className="flex items-start gap-2">
-                    <CheckCircle2 className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
-                    <span>Professional installation to industry standards</span>
+                  <li className="flex items-start">
+                    <Check className="h-5 w-5 text-primary mr-2 mt-0.5 flex-shrink-0" />
+                    <span>UV stable - won't fade or discolor</span>
+                  </li>
+                  <li className="flex items-start">
+                    <Check className="h-5 w-5 text-primary mr-2 mt-0.5 flex-shrink-0" />
+                    <span>Weed resistant and low maintenance</span>
+                  </li>
+                  <li className="flex items-start">
+                    <Check className="h-5 w-5 text-primary mr-2 mt-0.5 flex-shrink-0" />
+                    <span>Wide range of colors and finishes</span>
                   </li>
                 </ul>
               </CardContent>
             </Card>
-            <Card>
-              <CardContent className="p-6">
-                <div className="h-48 mb-4 rounded-lg overflow-hidden">
-                  <img
-                    src="/roof-repair.jpg"
-                    alt="Roof repair services in Teesside"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <h3 className="text-2xl font-semibold mb-3">Roof Repairs</h3>
+
+            {/* Resin Bonded */}
+            <Card className="overflow-hidden">
+              <img
+                src="/resin-bonded.jpg"
+                alt="Resin bonded driveway"
+                className="w-full h-64 object-cover"
+              />
+              <CardContent className="pt-6">
+                <h3 className="text-2xl font-bold mb-4">Resin Bonded Driveways</h3>
                 <p className="text-muted-foreground mb-4">
-                  Fast and reliable roof repair services to fix leaks, damaged tiles, and structural issues. Emergency repairs available for urgent situations.
+                  Resin is applied to the surface first, then loose aggregate is scattered on top, creating a textured finish. Ideal for traditional properties or areas requiring extra grip.
                 </p>
                 <ul className="space-y-2">
-                  <li className="flex items-start gap-2">
-                    <CheckCircle2 className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
-                    <span>Leak detection and repair</span>
+                  <li className="flex items-start">
+                    <Check className="h-5 w-5 text-primary mr-2 mt-0.5 flex-shrink-0" />
+                    <span>Textured surface with excellent grip</span>
                   </li>
-                  <li className="flex items-start gap-2">
-                    <CheckCircle2 className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
-                    <span>Tile and slate replacement</span>
+                  <li className="flex items-start">
+                    <Check className="h-5 w-5 text-primary mr-2 mt-0.5 flex-shrink-0" />
+                    <span>Traditional gravel appearance without loose stones</span>
                   </li>
-                  <li className="flex items-start gap-2">
-                    <CheckCircle2 className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
-                    <span>Storm damage repairs</span>
+                  <li className="flex items-start">
+                    <Check className="h-5 w-5 text-primary mr-2 mt-0.5 flex-shrink-0" />
+                    <span>Ideal for sloped driveways and ramps</span>
                   </li>
-                </ul>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardContent className="p-6">
-                <div className="h-48 mb-4 rounded-lg overflow-hidden">
-                  <img
-                    src="/roofer-working.jpg"
-                    alt="Flat roofing services in Teesside"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <h3 className="text-2xl font-semibold mb-3">Flat Roofing</h3>
-                <p className="text-muted-foreground mb-4">
-                  Specialist flat roofing services including installation, repairs, and maintenance for extensions, garages, and commercial buildings.
-                </p>
-                <ul className="space-y-2">
-                  <li className="flex items-start gap-2">
-                    <CheckCircle2 className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
-                    <span>EPDM rubber roofing</span>
+                  <li className="flex items-start">
+                    <Check className="h-5 w-5 text-primary mr-2 mt-0.5 flex-shrink-0" />
+                    <span>Cost-effective solution</span>
                   </li>
-                  <li className="flex items-start gap-2">
-                    <CheckCircle2 className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
-                    <span>GRP fibreglass roofing</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <CheckCircle2 className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
-                    <span>Felt roofing systems</span>
-                  </li>
-                </ul>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardContent className="p-6">
-                <div className="h-48 mb-4 rounded-lg overflow-hidden">
-                  <img
-                    src="/hero-roof.jpg"
-                    alt="Roofing maintenance services in Teesside"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <h3 className="text-2xl font-semibold mb-3">Roof Maintenance</h3>
-                <p className="text-muted-foreground mb-4">
-                  Regular maintenance services to extend the life of your roof and prevent costly repairs down the line.
-                </p>
-                <ul className="space-y-2">
-                  <li className="flex items-start gap-2">
-                    <CheckCircle2 className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
-                    <span>Annual roof inspections</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <CheckCircle2 className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
-                    <span>Gutter cleaning and repairs</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <CheckCircle2 className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
-                    <span>Preventative maintenance programs</span>
+                  <li className="flex items-start">
+                    <Check className="h-5 w-5 text-primary mr-2 mt-0.5 flex-shrink-0" />
+                    <span>Quick installation process</span>
                   </li>
                 </ul>
               </CardContent>
             </Card>
           </div>
+
+          <div className="text-center">
+            <p className="text-lg text-muted-foreground mb-6">
+              Not sure which option is right for you? Our team can help you choose the perfect solution for your property.
+            </p>
+            <Button
+              size="lg"
+              onClick={() => window.open("https://link.teessideguttercleaning.co.uk/contact", "_blank")}
+            >
+              Get Expert Advice
+            </Button>
+          </div>
         </div>
       </section>
 
-      {/* Why Choose Us */}
-      <section className="py-16 md:py-24 bg-primary text-primary-foreground">
-        <div className="container">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
-            Why Choose Our Roofing Services?
-          </h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+      {/* How It Works Section */}
+      <section id="how-it-works" className="py-20 bg-background">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+              How It Works
+            </h2>
+            <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
+              Our straightforward process ensures your new resin driveway is installed to the highest standards with minimal disruption.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-4 gap-8">
             <div className="text-center">
-              <div className="w-16 h-16 bg-primary-foreground/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Award className="h-8 w-8" />
+              <div className="w-16 h-16 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-2xl font-bold mx-auto mb-4">
+                1
               </div>
-              <h3 className="text-xl font-semibold mb-2">Quality Workmanship</h3>
-              <p className="text-primary-foreground/90">
-                All work completed to the highest industry standards with attention to detail.
+              <h3 className="text-xl font-bold mb-3">Free Consultation</h3>
+              <p className="text-muted-foreground">
+                Contact us to discuss your requirements. We'll assess your property and provide expert recommendations tailored to your needs.
               </p>
             </div>
+
             <div className="text-center">
-              <div className="w-16 h-16 bg-primary-foreground/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Shield className="h-8 w-8" />
+              <div className="w-16 h-16 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-2xl font-bold mx-auto mb-4">
+                2
               </div>
-              <h3 className="text-xl font-semibold mb-2">Fully Insured</h3>
-              <p className="text-primary-foreground/90">
-                Comprehensive insurance coverage for your peace of mind and protection.
+              <h3 className="text-xl font-bold mb-3">Detailed Quote</h3>
+              <p className="text-muted-foreground">
+                Receive a comprehensive, no-obligation quote outlining the scope of work, materials, timeline, and costs.
               </p>
             </div>
+
             <div className="text-center">
-              <div className="w-16 h-16 bg-primary-foreground/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                <CheckCircle2 className="h-8 w-8" />
+              <div className="w-16 h-16 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-2xl font-bold mx-auto mb-4">
+                3
               </div>
-              <h3 className="text-xl font-semibold mb-2">Local Expertise</h3>
-              <p className="text-primary-foreground/90">
-                Deep understanding of Teesside weather conditions and building requirements.
+              <h3 className="text-xl font-bold mb-3">Professional Installation</h3>
+              <p className="text-muted-foreground">
+                Our experienced team prepares the base, mixes and applies the resin system, ensuring a flawless finish that meets industry standards.
               </p>
             </div>
+
             <div className="text-center">
-              <div className="w-16 h-16 bg-primary-foreground/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Clock className="h-8 w-8" />
+              <div className="w-16 h-16 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-2xl font-bold mx-auto mb-4">
+                4
               </div>
-              <h3 className="text-xl font-semibold mb-2">Fast Turnaround</h3>
-              <p className="text-primary-foreground/90">
-                Efficient project completion without compromising on quality or safety.
+              <h3 className="text-xl font-bold mb-3">Enjoy Your New Driveway</h3>
+              <p className="text-muted-foreground">
+                After curing (typically 24 hours), your stunning new resin driveway is ready to use and will enhance your property for years to come.
               </p>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Why Choose Us Section */}
+      <section id="benefits" className="py-20 bg-primary/5">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+              Why Choose Our Resin Driveway Services?
+            </h2>
+            <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
+              We're committed to delivering exceptional results that transform your property and exceed your expectations.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <Card>
+              <CardContent className="pt-6">
+                <Shield className="h-10 w-10 text-primary mb-4" />
+                <h3 className="text-xl font-bold mb-3">Quality Materials</h3>
+                <p className="text-muted-foreground">
+                  We use only premium, UV-stable resins and high-quality aggregates to ensure your driveway looks stunning and lasts for decades.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardContent className="pt-6">
+                <Check className="h-10 w-10 text-primary mb-4" />
+                <h3 className="text-xl font-bold mb-3">Expert Installation</h3>
+                <p className="text-muted-foreground">
+                  Our skilled team has extensive experience in resin surfacing, following best practices to deliver flawless results every time.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardContent className="pt-6">
+                <Clock className="h-10 w-10 text-primary mb-4" />
+                <h3 className="text-xl font-bold mb-3">Fast Turnaround</h3>
+                <p className="text-muted-foreground">
+                  Most installations are completed in 1-2 days, minimizing disruption to your daily routine while maintaining the highest standards.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardContent className="pt-6">
+                <MapPin className="h-10 w-10 text-primary mb-4" />
+                <h3 className="text-xl font-bold mb-3">Local Expertise</h3>
+                <p className="text-muted-foreground">
+                  Based in Teesside, we understand local weather conditions and ground types, ensuring optimal performance for your driveway.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardContent className="pt-6">
+                <Droplets className="h-10 w-10 text-primary mb-4" />
+                <h3 className="text-xl font-bold mb-3">Eco-Friendly Solutions</h3>
+                <p className="text-muted-foreground">
+                  Our permeable resin bound systems support sustainable drainage, reducing surface water runoff and environmental impact.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardContent className="pt-6">
+                <Sparkles className="h-10 w-10 text-primary mb-4" />
+                <h3 className="text-xl font-bold mb-3">Stunning Results</h3>
+                <p className="text-muted-foreground">
+                  Transform your property's curb appeal with a beautiful, modern driveway that adds value and makes a lasting impression.
+                </p>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </section>
 
       {/* FAQ Section */}
-      <section className="py-16 md:py-24 bg-background">
-        <div className="container max-w-4xl">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
-            Frequently Asked Questions
-          </h2>
-          <Accordion type="single" collapsible className="w-full">
-            <AccordionItem value="item-1">
-              <AccordionTrigger className="text-left">
-                How much does roof replacement cost in Teesside?
-              </AccordionTrigger>
-              <AccordionContent className="text-muted-foreground">
-                The cost of roof replacement in Teesside varies depending on the size of your property, the materials chosen, and the complexity of the work. On average, homeowners can expect to pay between £5,000 and £15,000 for a complete roof replacement. We provide free, no-obligation quotes to give you an accurate estimate for your specific project.
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="item-2">
-              <AccordionTrigger className="text-left">
-                How long does a roof replacement take?
-              </AccordionTrigger>
-              <AccordionContent className="text-muted-foreground">
-                Most residential roof replacement projects in Teesside take between 3-7 days to complete, depending on the size of the roof, weather conditions, and the type of roofing material being installed. We'll provide you with a detailed timeline during your consultation.
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="item-3">
-              <AccordionTrigger className="text-left">
-                What types of roofing materials are available?
-              </AccordionTrigger>
-              <AccordionContent className="text-muted-foreground">
-                We work with a wide range of roofing materials to suit different budgets and aesthetic preferences. Popular options include concrete and clay tiles, natural slate, synthetic slate, felt roofing for flat roofs, EPDM rubber roofing, and GRP fibreglass. Each material has its own advantages in terms of durability, cost, and appearance.
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="item-4">
-              <AccordionTrigger className="text-left">
-                Do I need planning permission for roof work in Teesside?
-              </AccordionTrigger>
-              <AccordionContent className="text-muted-foreground">
-                In most cases, replacing a roof with similar materials does not require planning permission in the UK. However, if you live in a conservation area or listed building, or if you're changing the roof structure significantly, you may need permission. We can advise you on the specific requirements for your property.
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="item-5">
-              <AccordionTrigger className="text-left">
-                How do I know if I need a roof repair or full replacement?
-              </AccordionTrigger>
-              <AccordionContent className="text-muted-foreground">
-                Several factors determine whether repair or replacement is the best option: the age of your roof (most last 20-50 years depending on material), the extent of damage, recurring leak issues, visible sagging or structural problems, and missing or damaged tiles. A professional inspection will help determine the most cost-effective solution for your situation.
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="item-6">
-              <AccordionTrigger className="text-left">
-                What areas of Teesside do you cover?
-              </AccordionTrigger>
-              <AccordionContent className="text-muted-foreground">
-                We provide roofing services throughout the entire Teesside area, including Middlesbrough, Stockton-on-Tees, Redcar, Hartlepool, and surrounding communities. If you're unsure whether we cover your specific location, please get in touch and we'll be happy to confirm.
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="item-7">
-              <AccordionTrigger className="text-left">
-                Is there a cost to get a quote?
-              </AccordionTrigger>
-              <AccordionContent className="text-muted-foreground">
-                No, we provide completely free, no-obligation quotes for all roofing projects in Teesside. Simply fill out our contact form or give us a call to arrange a consultation. There's no pressure to proceed, and you can take your time to consider your options.
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="item-8">
-              <AccordionTrigger className="text-left">
-                How do I get started?
-              </AccordionTrigger>
-              <AccordionContent className="text-muted-foreground">
-                Getting started is easy! Simply fill out the contact form below with details about your roofing project, or give us a call. We'll arrange a convenient time to assess your roof and provide you with a detailed, transparent quote. From there, you can decide if you'd like to proceed with the work.
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="item-9">
-              <AccordionTrigger className="text-left">
-                What happens if it rains during my roof replacement?
-              </AccordionTrigger>
-              <AccordionContent className="text-muted-foreground">
-                Professional roofing contractors plan for weather conditions and take precautions to protect your home. Work may be paused during heavy rain for safety reasons, but temporary coverings and waterproofing measures are used to ensure your property remains protected throughout the project.
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="item-10">
-              <AccordionTrigger className="text-left">
-                Do you offer emergency roofing repairs?
-              </AccordionTrigger>
-              <AccordionContent className="text-muted-foreground">
-                Yes, emergency roofing repairs are available for urgent situations such as storm damage, severe leaks, or structural issues that pose an immediate risk. Contact us as soon as possible if you have an emergency roofing situation, and we'll prioritize your case.
-              </AccordionContent>
-            </AccordionItem>
-          </Accordion>
+      <section id="faq" className="py-20 bg-background">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+              Frequently Asked Questions
+            </h2>
+            <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
+              Find answers to common questions about resin driveways, installation, and maintenance.
+            </p>
+          </div>
+
+          <div className="max-w-4xl mx-auto">
+            <Accordion type="single" collapsible className="space-y-4">
+              <AccordionItem value="item-1">
+                <AccordionTrigger className="text-left">
+                  What is the difference between resin bound and resin bonded driveways?
+                </AccordionTrigger>
+                <AccordionContent>
+                  Resin bound driveways are created by mixing resin and aggregate together before trowelling onto a surface, resulting in a smooth, permeable finish. Resin bonded driveways involve applying resin first, then scattering aggregate on top, creating a textured surface. Resin bound is fully permeable and has a modern appearance, while resin bonded offers excellent grip and a more traditional look.
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem value="item-2">
+                <AccordionTrigger className="text-left">
+                  How long does a resin driveway last?
+                </AccordionTrigger>
+                <AccordionContent>
+                  When installed correctly using quality materials, a resin bound driveway can last 15-25 years or more. The longevity depends on factors such as the quality of the base preparation, the resin and aggregate used, installation standards, and ongoing maintenance. UV-stable resins prevent discoloration and degradation over time.
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem value="item-3">
+                <AccordionTrigger className="text-left">
+                  Is a resin driveway permeable?
+                </AccordionTrigger>
+                <AccordionContent>
+                  Resin bound driveways are fully permeable, allowing water to drain through the surface naturally. This helps prevent puddles, reduces flood risk, and complies with sustainable drainage regulations (SuDS). Resin bonded surfaces are not permeable, so proper drainage must be in place.
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem value="item-4">
+                <AccordionTrigger className="text-left">
+                  How much does a resin driveway cost?
+                </AccordionTrigger>
+                <AccordionContent>
+                  The cost varies depending on the size of the area, the type of resin system (bound or bonded), the condition of the existing surface, and the aggregate chosen. Generally, resin driveways are competitively priced compared to other premium surfacing options. Contact us for a free, no-obligation quote tailored to your specific project.
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem value="item-5">
+                <AccordionTrigger className="text-left">
+                  Can a resin driveway be installed over my existing surface?
+                </AccordionTrigger>
+                <AccordionContent>
+                  In many cases, yes. Resin can be applied over existing concrete, tarmac, or block paving, provided the surface is structurally sound, stable, and properly prepared. This can save on groundwork costs. However, if the existing surface is severely damaged or unstable, a new base may be required. We'll assess your surface during the consultation.
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem value="item-6">
+                <AccordionTrigger className="text-left">
+                  How long does installation take?
+                </AccordionTrigger>
+                <AccordionContent>
+                  Most residential resin driveway installations are completed within 1-2 days, depending on the size and complexity of the project. The surface is typically ready for light foot traffic after 4-6 hours and vehicular use after 24 hours of curing time.
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem value="item-7">
+                <AccordionTrigger className="text-left">
+                  What maintenance does a resin driveway require?
+                </AccordionTrigger>
+                <AccordionContent>
+                  Resin driveways are very low maintenance. Regular sweeping to remove debris and occasional washing with water (or a mild detergent for stubborn stains) is usually sufficient. Avoid using harsh chemicals or high-pressure washers that could damage the surface. Weeds are rare but can be easily removed if they appear.
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem value="item-8">
+                <AccordionTrigger className="text-left">
+                  Will my resin driveway crack or fade?
+                </AccordionTrigger>
+                <AccordionContent>
+                  When installed with UV-stable resin and proper base preparation, resin driveways are highly resistant to cracking and fading. The flexibility of the resin allows it to accommodate minor ground movement, and UV stabilizers prevent color degradation from sunlight exposure. Quality materials and professional installation are key to long-term performance.
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem value="item-9">
+                <AccordionTrigger className="text-left">
+                  Is a resin driveway slippery when wet?
+                </AccordionTrigger>
+                <AccordionContent>
+                  No, resin driveways provide good grip even in wet conditions. The aggregate within the resin creates a textured surface that offers traction. Resin bonded surfaces are particularly slip-resistant due to their more pronounced texture. Both systems are suitable for sloped driveways and areas requiring disabled access.
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem value="item-10">
+                <AccordionTrigger className="text-left">
+                  Do I need planning permission for a resin driveway?
+                </AccordionTrigger>
+                <AccordionContent>
+                  In most cases, no planning permission is required for resin driveways, especially resin bound systems which are permeable. However, if your driveway is larger than 5 square meters and uses a non-permeable surface, you may need to ensure proper drainage to comply with regulations. We can advise on specific requirements for your property.
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem value="item-11">
+                <AccordionTrigger className="text-left">
+                  What colors and finishes are available?
+                </AccordionTrigger>
+                <AccordionContent>
+                  Resin driveways offer a wide range of colors and aggregate options, from natural stone tones (greys, browns, golds) to more vibrant colors. You can also choose different aggregate sizes for varied textures. We'll show you samples and help you select a finish that complements your property's style.
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem value="item-12">
+                <AccordionTrigger className="text-left">
+                  Can resin driveways be repaired if damaged?
+                </AccordionTrigger>
+                <AccordionContent>
+                  Yes, resin driveways can be repaired. Small areas of damage can be patched by removing the affected section and applying new resin and aggregate. While repairs are possible, proper installation and quality materials minimize the need for future fixes.
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem value="item-13">
+                <AccordionTrigger className="text-left">
+                  Are resin driveways suitable for heavy vehicles?
+                </AccordionTrigger>
+                <AccordionContent>
+                  Yes, when installed with a properly prepared base, resin driveways can support regular car traffic and even heavier vehicles. The key is ensuring the sub-base is adequately compacted and of sufficient depth to distribute the load. We'll assess your requirements and prepare the base accordingly.
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem value="item-14">
+                <AccordionTrigger className="text-left">
+                  How do I get a quote for my resin driveway?
+                </AccordionTrigger>
+                <AccordionContent>
+                  Simply contact us through our website or give us a call. We'll arrange a free consultation to assess your property, discuss your preferences, and provide a detailed, no-obligation quote. We're available 24/7 to answer your questions and help you get started.
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem value="item-15">
+                <AccordionTrigger className="text-left">
+                  What areas in Teesside do you serve?
+                </AccordionTrigger>
+                <AccordionContent>
+                  We provide resin driveway installation services throughout Teesside, including Middlesbrough, Stockton-on-Tees, Billingham, Redcar, Thornaby, Yarm, Eaglescliffe, Ingleby Barwick, and Wynyard. If you're in the surrounding areas, please contact us to confirm coverage.
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
+          </div>
         </div>
       </section>
 
-      {/* Final CTA */}
-      <section className="py-16 md:py-24 bg-gradient-to-br from-accent/40 to-primary/10">
-        <div className="container max-w-3xl text-center">
+      {/* Service Areas Section */}
+      <section id="areas" className="py-20 bg-muted/30">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+              Serving Teesside & Surrounding Areas
+            </h2>
+            <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
+              We're proud to provide premium resin driveway services across Teesside and the wider region.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 max-w-4xl mx-auto">
+            {[
+              "Middlesbrough",
+              "Stockton-on-Tees",
+              "Billingham",
+              "Redcar",
+              "Thornaby",
+              "Yarm",
+              "Eaglescliffe",
+              "Ingleby Barwick",
+              "Wynyard",
+            ].map((area) => (
+              <Card key={area} className="text-center">
+                <CardContent className="pt-6">
+                  <MapPin className="h-8 w-8 text-primary mx-auto mb-2" />
+                  <p className="font-semibold">{area}</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+
+          <div className="text-center mt-12">
+            <p className="text-muted-foreground mb-6">
+              Don't see your area listed? Contact us to check if we cover your location.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Final CTA Section */}
+      <section id="contact" className="py-20 bg-gradient-to-br from-primary to-secondary text-primary-foreground">
+        <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">
-            Ready to Get Started on Your Roofing Project?
+            Ready to Transform Your Driveway?
           </h2>
-          <p className="text-lg text-muted-foreground mb-8">
-            Get your free, no-obligation quote today. Our team is ready to help you with all your roofing needs in Teesside.
+          <p className="text-xl mb-8 max-w-2xl mx-auto opacity-95">
+            Get your free, no-obligation quote today. We're available 24/7 to discuss your project and answer any questions.
           </p>
-          <Button size="lg" onClick={scrollToContact} className="text-lg">
+          <Button
+            size="lg"
+            variant="secondary"
+            className="text-lg px-8 py-6"
+            onClick={() => window.open("https://link.teessideguttercleaning.co.uk/contact", "_blank")}
+          >
             Request Your Free Quote Now
           </Button>
         </div>
       </section>
 
-      {/* Contact Section */}
-      <section id="contact" className="py-16 md:py-24 bg-background">
-        <div className="container max-w-5xl">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
-            Get Your Free Quote
-          </h2>
-          <div className="grid md:grid-cols-2 gap-12">
-            <div>
-              <h3 className="text-2xl font-semibold mb-4">Contact Information</h3>
-              <p className="text-muted-foreground mb-6">
-                Fill out the form and we'll get back to you as soon as possible with a free, no-obligation quote for your roofing project.
-              </p>
-              <div className="space-y-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
-                    <Phone className="h-5 w-5 text-primary" />
-                  </div>
-                  <div>
-                    <p className="font-medium">Phone</p>
-                    <p className="text-muted-foreground">Available upon request</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
-                    <Mail className="h-5 w-5 text-primary" />
-                  </div>
-                  <div>
-                    <p className="font-medium">Email</p>
-                    <p className="text-muted-foreground">Via contact form</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
-                    <CheckCircle2 className="h-5 w-5 text-primary" />
-                  </div>
-                  <div>
-                    <p className="font-medium">Service Area</p>
-                    <p className="text-muted-foreground">All of Teesside and surrounding areas</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <Card>
-              <CardContent className="p-6">
-                <form className="space-y-4" onSubmit={(e) => {
-                  e.preventDefault();
-                  alert('This is a demo form. In production, this would submit to your CTA link.');
-                }}>
-                  <div>
-                    <label htmlFor="name" className="block text-sm font-medium mb-2">
-                      Full Name *
-                    </label>
-                    <input
-                      type="text"
-                      id="name"
-                      required
-                      className="w-full px-4 py-2 border border-input rounded-md bg-background focus:outline-none focus:ring-2 focus:ring-ring"
-                      placeholder="John Smith"
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="email" className="block text-sm font-medium mb-2">
-                      Email Address *
-                    </label>
-                    <input
-                      type="email"
-                      id="email"
-                      required
-                      className="w-full px-4 py-2 border border-input rounded-md bg-background focus:outline-none focus:ring-2 focus:ring-ring"
-                      placeholder="john@example.com"
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="phone" className="block text-sm font-medium mb-2">
-                      Phone Number *
-                    </label>
-                    <input
-                      type="tel"
-                      id="phone"
-                      required
-                      className="w-full px-4 py-2 border border-input rounded-md bg-background focus:outline-none focus:ring-2 focus:ring-ring"
-                      placeholder="01234 567890"
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="message" className="block text-sm font-medium mb-2">
-                      Tell Us About Your Project *
-                    </label>
-                    <textarea
-                      id="message"
-                      required
-                      rows={4}
-                      className="w-full px-4 py-2 border border-input rounded-md bg-background focus:outline-none focus:ring-2 focus:ring-ring resize-none"
-                      placeholder="Please describe your roofing needs..."
-                    />
-                  </div>
-                  <Button type="submit" className="w-full" size="lg">
-                    Get My Free Quote Now
-                  </Button>
-                </form>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </section>
-
       {/* Footer */}
       <footer className="bg-foreground text-background py-12">
-        <div className="container">
+        <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-3 gap-8 mb-8">
             <div>
-              <h3 className="text-xl font-bold mb-4">Teesside Roofing Services</h3>
-              <p className="text-background/80">
-                Professional roofing replacement and repair services throughout Teesside.
+              <h3 className="text-xl font-bold mb-4">Teesside Driveways</h3>
+              <p className="text-background/80 mb-4">
+                Premium resin bound and bonded driveway specialists serving Teesside and surrounding areas.
               </p>
             </div>
+
             <div>
-              <h4 className="font-semibold mb-4">Quick Links</h4>
-              <ul className="space-y-2 text-background/80">
-                <li><a href="#" className="hover:text-background">Privacy Policy</a></li>
-                <li><a href="#" className="hover:text-background">Terms & Conditions</a></li>
-                <li><a href="#" className="hover:text-background">Disclaimer</a></li>
+              <h3 className="text-xl font-bold mb-4">Quick Links</h3>
+              <ul className="space-y-2">
+                <li>
+                  <button
+                    onClick={() => scrollToSection("services")}
+                    className="text-background/80 hover:text-background transition-colors"
+                  >
+                    Services
+                  </button>
+                </li>
+                <li>
+                  <button
+                    onClick={() => scrollToSection("how-it-works")}
+                    className="text-background/80 hover:text-background transition-colors"
+                  >
+                    How It Works
+                  </button>
+                </li>
+                <li>
+                  <button
+                    onClick={() => scrollToSection("faq")}
+                    className="text-background/80 hover:text-background transition-colors"
+                  >
+                    FAQ
+                  </button>
+                </li>
+                <li>
+                  <button
+                    onClick={() => scrollToSection("areas")}
+                    className="text-background/80 hover:text-background transition-colors"
+                  >
+                    Service Areas
+                  </button>
+                </li>
               </ul>
             </div>
+
             <div>
-              <h4 className="font-semibold mb-4">Service Area</h4>
-              <p className="text-background/80">
-                Teesside, UK<br />
-                Including Middlesbrough, Stockton-on-Tees,<br />
-                Redcar, and Hartlepool
-              </p>
+              <h3 className="text-xl font-bold mb-4">Contact Us</h3>
+              <p className="text-background/80 mb-2">Available 24/7</p>
+              <Button
+                variant="outline"
+                className="mb-4"
+                onClick={() => window.open("https://link.teessideguttercleaning.co.uk/contact", "_blank")}
+              >
+                Get In Touch
+              </Button>
             </div>
           </div>
-          <div className="border-t border-background/20 pt-8 text-center text-background/80">
-            <p>&copy; {new Date().getFullYear()} Teesside Roofing Services | All Rights Reserved</p>
+
+          <div className="border-t border-background/20 pt-8">
+            <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+              <p className="text-background/80 text-sm text-center md:text-left">
+                © 2025 Teesside Driveways, Varsity House, 2 Falcon Court, Preston Farm Industrial Estate, Stockton-on-Tees, TS18 3TS. All rights reserved.
+              </p>
+              <div className="flex gap-6 text-sm">
+                <a
+                  href="https://lp.teessideresindriveways.co.uk/privacy-policy"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-background/80 hover:text-background transition-colors"
+                >
+                  Privacy Policy
+                </a>
+                <a
+                  href="https://lp.teessideresindriveways.co.uk/terms-conditions"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-background/80 hover:text-background transition-colors"
+                >
+                  Terms & Conditions
+                </a>
+                <a
+                  href="https://lp.teessideresindriveways.co.uk/disclaimer"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-background/80 hover:text-background transition-colors"
+                >
+                  Disclaimer
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       </footer>
     </div>
+    </>
   );
 }
